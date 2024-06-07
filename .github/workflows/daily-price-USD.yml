@@ -1,0 +1,41 @@
+name: filtro por paises
+
+on:
+  schedule:
+    - cron: '00 22 * * *' # Runs every day at 00:00 UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  extrayendo_dato:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: descargar data
+        run: |
+          curl "https://bcv.org.ve" | grep -5 "USD" page | grep "000" | sed 's|strong>|\n|g' | grep "</" | grep -v div | sed 's|</|VES|g' > price-now.csv
+          if [ ! -s price-now.csv ]; then
+            echo "Downloaded CSV file is empty"
+            exit 1
+          fi
+
+      - name: crear tabla cumulativa
+        run: |
+          cat  price-now.csv >> prices-USD.csv
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git diff --quiet || git stash
+          git pull --rebase origin main
+          git stash list | grep "stash@{0}" && git stash apply
+          git add prices-USD.csv
+          git diff --cached --exit-code || git commit -m "tablas actualizada" --allow-empty
+          git push --force-with-lease origin HEAD:main
+ 
