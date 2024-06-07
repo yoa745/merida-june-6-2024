@@ -39,7 +39,7 @@ jobs:
           git push --force-with-lease origin HEAD:main
  
   viendo_datos: # nombre del job
-    needs: analizando_datos # job(s) de los que depende
+    #needs: analizando_datos # job(s) de los que depende
     runs-on: macos-12 # sistema operativo
     steps:
       - name: Checkout code
