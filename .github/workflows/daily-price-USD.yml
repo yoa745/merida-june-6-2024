@@ -1,4 +1,4 @@
-name: filtro por paises
+name: Precio diario
 
 on:
   schedule:
