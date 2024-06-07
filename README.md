@@ -2,9 +2,5 @@
 
 esto es un reame file.
 
-## sub
-
-----
-
-* f
-* g
+## Datos para el ejercicio
+https://companiesmarketcap.com/
