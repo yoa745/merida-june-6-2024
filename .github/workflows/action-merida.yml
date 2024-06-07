@@ -57,6 +57,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: update current repo with output files
+        run: | 
+          git fetch
+          git pull
+
       - name: imprimir tabla bruta y neta
         run: |
           echo "tabla desde Empresas Francesas"
