@@ -20,6 +20,14 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: descargar data
+        run: |
+          curl -sL "https://companiesmarketcap.com/clothing/largest-clothing-companies-by-market-cap/?download=csv" -o companies-all.csv
+          if [ ! -s companies-all.csv ]; then
+            echo "Downloaded CSV file is empty"
+            exit 1
+          fi
+
       - name: crear tablas por pais
         run: |
           grep -i Germany companies-all.csv  > companies_germany.csv
