@@ -38,8 +38,8 @@ jobs:
           git diff --cached --exit-code || git commit -m "tabla actualizada" --allow-empty
           git push --force-with-lease origin HEAD:main
  
-  viendo_datos: # nombre del job
-    #needs: analizando_datos # job(s) de los que depende
+  viendo_eu: # nombre del job
+    needs: analizando_datos # job(s) de los que depende
     runs-on: macos-12 # sistema operativo
     steps:
       - name: Checkout code
@@ -47,11 +47,20 @@ jobs:
 
       - name: imprimir tabla bruta y neta
         run: |
-          echo "tabla desde Empreses Francesas"
+          echo "tabla desde Empresas Francesas"
           cat companies_france.csv
           echo
-          echo "tabla desde Empreses Germanas"
+          echo "tabla desde Empresas Germanas"
           cat companies_germany.csv
-          echo
+
+  viendo_uk: # nombre del job
+    needs: analizando_datos # job(s) de los que depende
+    runs-on: ubuntu-latest # sistema operativo
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: imprimir tabla bruta y neta
+        run: |
           echo "tabla desde Empreses Inglesas"
           cat companies_united_kingdom.csv
